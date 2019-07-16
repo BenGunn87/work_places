@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from 'react'
+import MainMenu from './components/MainMenu'
+import CardList from "./views/CardList"
+import PeopleTable from "./views/PeopleTable"
+import { Layout } from 'antd'
+import { Route, Switch } from 'react-router-dom'
 import './App.css';
+
+const { Sider, Content } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Layout className="layout">
+        <Sider
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+          }}>
+          <MainMenu />
+        </Sider>
+        <Layout style={{ marginLeft: 200,  height: '100vh' }}>
+          <Content style={{ padding: '0 50px' }}>
+            <Switch>
+              <Route path="/cardlist" component={CardList} />
+              <Route path="/" component={PeopleTable} />
+            </Switch>
+          </Content>
+        </Layout>
+      </Layout>
     </div>
   );
 }
