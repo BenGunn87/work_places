@@ -1,9 +1,12 @@
 import React from 'react'
-import MainMenu from './components/MainMenu'
-import CardList from "./views/CardList"
-import PeopleTable from "./views/PeopleTable"
 import { Layout } from 'antd'
 import { Route, Switch } from 'react-router-dom'
+import { observer } from "mobx-react";
+
+import MainMenu from './components/MainMenu'
+import EditFormContainer from "./components/EditForm"
+import CardListView from "./views/CardListView"
+import PeopleTableView from "./views/PeopleTableView"
 import './App.css';
 
 const { Sider, Content } = Layout;
@@ -11,6 +14,7 @@ const { Sider, Content } = Layout;
 function App() {
   return (
     <div>
+      <EditFormContainer/>
       <Layout className="layout">
         <Sider
           style={{
@@ -24,8 +28,8 @@ function App() {
         <Layout style={{ marginLeft: 200,  height: '100vh' }}>
           <Content style={{ padding: '0 50px' }}>
             <Switch>
-              <Route path="/cardlist" component={CardList} />
-              <Route path="/" component={PeopleTable} />
+              <Route path="/cardlist" component={CardListView} />
+              <Route path="/" component={PeopleTableView} />
             </Switch>
           </Content>
         </Layout>
@@ -33,5 +37,6 @@ function App() {
     </div>
   );
 }
+observer(App);
 
 export default App;

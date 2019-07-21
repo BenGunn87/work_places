@@ -1,14 +1,16 @@
 import React from 'react'
-import { observer } from 'mobx-react'
 import { Table, Input, Button, Icon } from 'antd'
 import Highlighter from 'react-highlight-words';
+import { observer } from 'mobx-react'
 
-class MyTable extends React.Component {
-  state = {
-    searchText: '',
-    searchIndex: ''
+class SearchableTable extends React.Component {
+  constructor(props){
+    super(props);
+    this.tableStore = props.tableStore;
+  }
+  onSelectChange = selectedRowKeys => {
+    this.tableStore.setSelectedRowKeys(selectedRowKeys);
   };
-
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
@@ -50,10 +52,10 @@ class MyTable extends React.Component {
       }
     },
     render: (text, record, index) => {
-      if (text === record[this.state.searchIndex]) {
+      if (text === record[this.tableStore.searchIndex]) {
         return <Highlighter
           highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-          searchWords={[this.state.searchText]}
+          searchWords={[this.tableStore.searchText]}
           autoEscape
           textToHighlight={text.toString()}
         />
@@ -64,46 +66,39 @@ class MyTable extends React.Component {
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    this.setState({
-      searchText : selectedKeys[0],
-      searchIndex: dataIndex
-    });
+    this.tableStore.setSearchData(selectedKeys[0], dataIndex);
+    this.tableStore.setSelectedRowKeys([]);
   };
 
   handleReset = clearFilters => {
     clearFilters();
-    this.setState({
-      searchText : '',
-      searchIndex: ''
-    });
+    this.tableStore.setSearchData('', '');
   };
 
   render() {
-    const { people, loaded } = this.props.store;
-    //const columns =
-    if (loaded) {
-      const columns = [];
-      for (let key in people[0]) {
-        if (people[0].hasOwnProperty(key)) {
-          columns.push({
-            title: key,
-            dataIndex: key,
-            key: key,
-            ...this.getColumnSearchProps(key),
-          });
+    const { selectedRowKeys } = this.tableStore;
+    const rowSelection = {
+      selectedRowKeys,
+      hideDefaultSelections: true,
+      onChange: this.onSelectChange,
+    };
+
+    let {columns, searchFields, ...restProps} = this.props;
+    columns = columns.map((item, ind) => {
+      if (searchFields.indexOf(ind) !== -1) {
+        return {
+          ...item,
+          ...this.getColumnSearchProps(item.key)
         }
       }
-      return (
-        <Table dataSource={people} columns={columns}/>
-      );
-    } else {
-      return (
-        <div>Загрузка</div>
-      );
-    }
+      return {...item}
+    });
+    return (
+      <Table columns = {columns} rowSelection={rowSelection} {...restProps} />
+    );
   }
 }
 
-observer(MyTable);
+observer(SearchableTable);
 
-export default MyTable;
+export default SearchableTable;
