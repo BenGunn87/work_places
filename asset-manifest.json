@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/peolelist/static/css/main.2cce8147.chunk.css",
+    "main.js": "/peolelist/static/js/main.d66a117e.chunk.js",
+    "main.js.map": "/peolelist/static/js/main.d66a117e.chunk.js.map",
+    "runtime~main.js": "/peolelist/static/js/runtime~main.8ed22c05.js",
+    "runtime~main.js.map": "/peolelist/static/js/runtime~main.8ed22c05.js.map",
+    "static/css/2.7c2c7a7e.chunk.css": "/peolelist/static/css/2.7c2c7a7e.chunk.css",
+    "static/js/2.eb47f6ba.chunk.js": "/peolelist/static/js/2.eb47f6ba.chunk.js",
+    "static/js/2.eb47f6ba.chunk.js.map": "/peolelist/static/js/2.eb47f6ba.chunk.js.map",
+    "index.html": "/peolelist/index.html",
+    "precache-manifest.7925cf794cfecde805fce2838cbbe39c.js": "/peolelist/precache-manifest.7925cf794cfecde805fce2838cbbe39c.js",
+    "service-worker.js": "/peolelist/service-worker.js",
+    "static/css/2.7c2c7a7e.chunk.css.map": "/peolelist/static/css/2.7c2c7a7e.chunk.css.map",
+    "static/css/main.2cce8147.chunk.css.map": "/peolelist/static/css/main.2cce8147.chunk.css.map"
+  }
+}
