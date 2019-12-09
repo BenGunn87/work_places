@@ -1,35 +1,35 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 
-import EditForm from './EditForm'
+import EditWorkPlaceForm from './EditWorkPlaceForm'
 
-const EditFormContainer = inject('workPlacesStore', 'viewStore')(observer(({ workPlacesStore,  viewStore}) =>
+const EditWorkPlaceFormContainer = inject('workPlacesStore', 'viewStore')(observer(({ workPlacesStore,  viewStore}) =>
   {
-    const { key, toggleVisibleEditForm, visibleEditForm } = viewStore;
-    if (!visibleEditForm) {
+    const { key, toggleVisibleEditForm, visibleEditWorkPlaceForm } = viewStore;
+    if (!visibleEditWorkPlaceForm) {
       return null;
     }
     const addWorkPlace = workPlace => {
-      toggleVisibleEditForm();
+      toggleVisibleEditForm('visibleEditWorkPlaceForm');
       workPlacesStore.addWorkPlace(workPlace);
     };
     const editWorkPlace = workPlace => {
-      toggleVisibleEditForm();
+      toggleVisibleEditForm('visibleEditWorkPlaceForm');
       workPlacesStore.editWorkPlace(key, workPlace);
     };
     const handleOk = key ? editWorkPlace : addWorkPlace;
 
     const handleCancel = () => {
-      toggleVisibleEditForm();
+      toggleVisibleEditForm('visibleEditWorkPlaceForm');
     };
 
     const title = key ? 'Edit workPlace' : 'Add workPlace';
     const workPlace = key ? workPlacesStore.getWorkPlaceByKey(key) : {};
 
-    return <EditForm
+    return <EditWorkPlaceForm
       title = {title}
       viewStore = {viewStore}
-      visible = {visibleEditForm}
+      visible = {visibleEditWorkPlaceForm}
       handleOk = {handleOk}
       handleCancel = {handleCancel}
       data = {workPlace}
@@ -37,4 +37,4 @@ const EditFormContainer = inject('workPlacesStore', 'viewStore')(observer(({ wor
   }
 ));
 
-export default EditFormContainer;
+export default EditWorkPlaceFormContainer;

@@ -2,20 +2,22 @@ import React from 'react'
 import { Layout } from 'antd'
 import { Route, Switch } from 'react-router-dom'
 import { observer } from "mobx-react";
-
 import MainMenu from './components/MainMenu'
-import EditFormContainer from "./components/EditForm"
-import CardListView from "./views/CardListView"
+import EditWorkPlaceFormContainer from "./components/EditWorkPlaceForm"
 import {WorkPlacesView} from './views/WorkPlacesView';
+import {PhoneBookView} from './views/PhoneBookView';
 
 import './App.css';
+import EditPhoneBookRecordFormContainer from './components/EditPhoneBookRecordForm';
+
 
 const { Sider, Content } = Layout;
 
 function App() {
   return (
     <div>
-      <EditFormContainer/>
+      <EditWorkPlaceFormContainer/>
+      <EditPhoneBookRecordFormContainer/>
       <Layout className="layout">
         <Sider
           style={{
@@ -29,7 +31,7 @@ function App() {
         <Layout style={{ marginLeft: 200,  height: '100vh' }}>
           <Content style={{ padding: '0 50px' }}>
             <Switch>
-              <Route path="/cardlist" component={CardListView} />
+              <Route path="/phoneBook" component={PhoneBookView} />
               <Route path="/" component={WorkPlacesView} />
             </Switch>
           </Content>

@@ -1,15 +1,15 @@
-import PeopleStore from './peopleStore'
 import TableStore from './tableStore'
 import ViewStore from './viewStore'
 import WorkPlacesStore from './workPlacesStore'
+import PhoneBookStore from './phoneBookStore';
 
 class RootStore {
   constructor() {
-    this.peopleStore = new PeopleStore(this);
-    this.peopleTableStore = new TableStore(this);
     this.viewStore = new ViewStore(this);
     this.workPlacesStore = new WorkPlacesStore(this);
     this.workPlacesTableStore = new TableStore(this);
+    this.phoneBookStore = new PhoneBookStore(this);
+    this.phoneBookTableStore = new TableStore(this);
   }
 }
 

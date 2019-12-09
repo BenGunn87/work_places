@@ -4,7 +4,7 @@ import { Menu } from 'antd'
 
 class MainMenu extends React.Component {
   render() {
-    const selectedKey = this.props.location.pathname === '/cardlist' ? '2' : '1';
+    const selectedKey = this.props.location.pathname === '/phoneBook' ? '2' : '1';
     return (
       <Menu
         style={{ width: 200 }}
@@ -14,10 +14,10 @@ class MainMenu extends React.Component {
         mode="inline"
       >
         <Menu.Item key="1">
-          <Link to='/peopletable'>Места работы</Link>
+          <Link to='/workPlaces'>Места работы</Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link to='/cardlist'>Телефонная книга</Link>
+          <Link to='/phoneBook'>Телефонная книга</Link>
         </Menu.Item>
       </Menu>
     );

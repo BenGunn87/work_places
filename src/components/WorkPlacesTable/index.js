@@ -5,20 +5,20 @@ import WorkPlacesTable from './WorkPlacesTable'
 
 const WorkPlacesTableContainer = inject('workPlacesStore', 'workPlacesTableStore')(observer(({ workPlacesStore,  workPlacesTableStore}) =>
 	{
-		const onDelManButtonClick = () => {
+		const onDelWorkPlaceButtonClick = () => {
 			const {selectedRowKeys, setSelectedRowKeys} = workPlacesTableStore;
 			workPlacesStore.delWorkPlace(selectedRowKeys);
 			setSelectedRowKeys([]);
 		};
-		const onAddManButtonClick = () => {
+		const onAddWorkPlaceButtonClick = () => {
 			workPlacesStore.rootstore.viewStore.key = '';
-			workPlacesStore.rootstore.viewStore.toggleVisibleEditForm()
+			workPlacesStore.rootstore.viewStore.toggleVisibleEditForm('visibleEditWorkPlaceForm');
 		};
 		return <WorkPlacesTable
 			workPlacesStore={workPlacesStore}
 			tableStore={workPlacesTableStore}
-			onDelButtonClick={onDelManButtonClick}
-			onAddButtonClick={onAddManButtonClick}
+			onDelButtonClick={onDelWorkPlaceButtonClick}
+			onAddButtonClick={onAddWorkPlaceButtonClick}
 		/>
 	}
 ));

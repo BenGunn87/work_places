@@ -1,18 +1,20 @@
 import { observable, action, decorate } from 'mobx'
 
 class ViewStore {
-  visibleEditForm = false;
+  visibleEditWorkPlaceForm = false;
+  visibleEditPhoneBookRecordForm = false;
   key = '';
   constructor(rootstore) {
     this.rootstore = rootstore;
   };
-  toggleVisibleEditForm = () => {
-    return this.visibleEditForm = !this.visibleEditForm;
+  toggleVisibleEditForm = (form) => {
+    this[form] = !this[form];
   }
 }
 
 decorate(ViewStore, {
-  visibleEditForm: observable,
+  visibleEditWorkPlaceForm: observable,
+  visibleEditPhoneBookRecordForm: observable,
   toggleVisibleEditForm: action
 });
 

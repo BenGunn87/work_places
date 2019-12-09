@@ -39,7 +39,7 @@ const validate = store => {
   return errorList.length === 0;
 };
 
-class EditForm extends React.Component {
+class EditWorkPlaceForm extends React.Component {
   constructor(props) {
     super(props);
     this.formStore = new FormStore(props.data);
@@ -135,7 +135,7 @@ class EditForm extends React.Component {
           </Col>
           <Col span={18}>
             <Input id='address' defaultValue={address} onChange={onChange}/>
-            {addressError ? <Alert message="Пожалуйста введите фдрес работы!" type="error" banner/> : null}
+            {addressError ? <Alert message="Пожалуйста введите адрес работы!" type="error" banner/> : null}
           </Col>
         </Row>
       </Modal>
@@ -143,5 +143,5 @@ class EditForm extends React.Component {
   }
 }
 
-observer(EditForm);
-export default EditForm;
+observer(EditWorkPlaceForm);
+export default EditWorkPlaceForm;
