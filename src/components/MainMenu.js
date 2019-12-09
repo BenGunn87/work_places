@@ -14,10 +14,10 @@ class MainMenu extends React.Component {
         mode="inline"
       >
         <Menu.Item key="1">
-          <Link to='/peopletable'>Таблица</Link>
+          <Link to='/peopletable'>Места работы</Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link to='/cardlist'>Карточки</Link>
+          <Link to='/cardlist'>Телефонная книга</Link>
         </Menu.Item>
       </Menu>
     );

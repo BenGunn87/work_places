@@ -3,37 +3,36 @@ import { observer, inject } from 'mobx-react';
 
 import EditForm from './EditForm'
 
-const EditFormContainer = inject('peopleStore', 'viewStore')(observer(({ peopleStore,  viewStore}) =>
+const EditFormContainer = inject('workPlacesStore', 'viewStore')(observer(({ workPlacesStore,  viewStore}) =>
   {
     const { key, toggleVisibleEditForm, visibleEditForm } = viewStore;
     if (!visibleEditForm) {
       return null;
     }
-    const addMan = man => {
+    const addWorkPlace = workPlace => {
       toggleVisibleEditForm();
-      peopleStore.addMan(man);
+      workPlacesStore.addWorkPlace(workPlace);
     };
-    const editMan = man => {
+    const editWorkPlace = workPlace => {
       toggleVisibleEditForm();
-      peopleStore.editMan(key, man);
+      workPlacesStore.editWorkPlace(key, workPlace);
     };
-    const handleOk = key ? editMan : addMan;
+    const handleOk = key ? editWorkPlace : addWorkPlace;
 
     const handleCancel = () => {
       toggleVisibleEditForm();
     };
 
-    const title = key ? 'Edit profile' : 'Add profile';
-    const man = key ? peopleStore.getManByKey(key) : {};
+    const title = key ? 'Edit workPlace' : 'Add workPlace';
+    const workPlace = key ? workPlacesStore.getWorkPlaceByKey(key) : {};
 
     return <EditForm
-      peopleStore = {peopleStore}
       title = {title}
       viewStore = {viewStore}
       visible = {visibleEditForm}
       handleOk = {handleOk}
       handleCancel = {handleCancel}
-      man = {man}
+      data = {workPlace}
     />
   }
 ));

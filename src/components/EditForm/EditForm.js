@@ -1,16 +1,15 @@
 import React from 'react'
-import { Modal, Button, Row, Col, InputNumber, Input, Select, Alert } from 'antd'
+import { Modal, Button, Row, Col, Input,Alert } from 'antd'
 import { observer } from 'mobx-react'
 import { decorate, observable, action} from "mobx";
 import rootStore from "../../stores/rootStore";
 
-const { Option } = Select;
-const fieldsList = rootStore.peopleStore.fieldList;
+const fieldsList = rootStore.workPlacesStore.fieldList.map(({field}) => field);
 
 class FormStore {
-  constructor(man = {}) {
+  constructor(workPlace = {}) {
     for (let field of fieldsList) {
-      this[field] = man[field];
+      this[field] = workPlace[field];
       this[`${field}Error`] = false;
       decorate(this, {
         [field]: observable,
@@ -18,32 +17,19 @@ class FormStore {
       })
     }
   }
-  onNameChange = e => {
-    this.name = e.target.value;
-    this.nameError = false;
+
+  onChange = e => {
+    this[e.target.id] = e.target.value;
+    this[`${e.target.id}Error`] = false;
   };
-  onGenderChange = value => {
-    this.gender = value;
-    this.genderError = false;
-  };
-  onHeightChange = value => {
-    this.height = value;
-    this.heightError = false;
-  };
-  onMassChange = value => {
-    this.mass = value;
-    this.massError = false;
-  };
+
   setError = errorList => {
     errorList.forEach(field => this[`${field}Error`] = true);
   }
 }
 
 decorate(FormStore, {
-  onNameChange: action,
-  onGenderChange: action,
-  onHeightChange: action,
-  onMassChange: action,
+  onChange: action,
   setError: action
 });
 
@@ -56,23 +42,24 @@ const validate = store => {
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
-    this.formStore = new FormStore(props.man);
+    this.formStore = new FormStore(props.data);
   };
+
   handleOk = () => {
     if (validate(this.formStore)) {
-      const resMan = {};
+      const resWorkPlace = {};
       fieldsList.forEach(field => {
-        resMan[field] = this.formStore[field];
+        resWorkPlace[field] = this.formStore[field];
       });
-      this.props.handleOk(resMan);
+      this.props.handleOk(resWorkPlace);
     }
   };
 
   render() {
     const { visible, handleCancel, title } = this.props;
-    const { name, gender, height, mass } = this.formStore;
-    const { nameError, genderError, heightError, massError } = this.formStore;
-    const { onNameChange, onGenderChange, onHeightChange, onMassChange } = this.formStore;
+    const { lastName, firstName, workPlace, address } = this.formStore;
+    const { lastNameError, firstNameError, workPlaceError, addressError } = this.formStore;
+    const { onChange } = this.formStore;
 
     return (
       <Modal
@@ -81,59 +68,74 @@ class EditForm extends React.Component {
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
-            Return
+            Отмена
           </Button>,
           <Button key="submit" type="primary" onClick={this.handleOk}>
-            Save
+            Сохранить
           </Button>,
         ]}
       >
         <Row>
           <Col span={6} className='ant-form-item-label'>
-            <label className='ant-form-item-required' htmlFor='name' title='name' style={{paddingBottom: 8}}>
-              Name
+            <label
+                className='ant-form-item-required'
+                htmlFor='lastName'
+                title='lastName'
+                style={{paddingBottom: 8}}
+            >
+              Фамилия
             </label>
           </Col>
           <Col span={18}>
-            <Input id='name' defaultValue={name} onChange={onNameChange}/>
-            {nameError ? <Alert message="Please input name!" type="error" banner/> : null}
+            <Input id='lastName' defaultValue={lastName} onChange={onChange}/>
+            {lastNameError ? <Alert message="Пожалуйста введите фамилию!" type="error" banner/> : null}
           </Col>
         </Row>
         <Row>
           <Col span={6} className='ant-form-item-label'>
-            <label className='ant-form-item-required' htmlFor='gender' title='gender' style={{paddingBottom: 8}}>
-              Gender
+            <label
+                className='ant-form-item-required'
+                htmlFor='firstName'
+                title='firstName'
+                style={{paddingBottom: 8}}
+            >
+              Имя
             </label>
           </Col>
           <Col span={18}>
-            <Select defaultValue={gender} style={{ width: 120 }} onChange={onGenderChange}>
-              <Option value="male">male</Option>
-              <Option value="female">female</Option>
-              <Option value="n/a">n/a</Option>
-            </Select>
-            {genderError ? <Alert message="Please select gender!" type="error" banner/> : null}
+            <Input id='firstName' defaultValue={firstName} onChange={onChange}/>
+            {firstNameError ? <Alert message="Пожалуйста введите имя!" type="error" banner/> : null}
           </Col>
         </Row>
         <Row>
           <Col span={6} className='ant-form-item-label'>
-            <label className='ant-form-item-required' htmlFor = 'height' title = 'height' style={{paddingBottom: 8}}>
-              Height (cm)
+            <label
+                className='ant-form-item-required'
+                htmlFor = 'workPlace'
+                title = 'workPlace'
+                style={{paddingBottom: 8}}
+            >
+              Место работы
             </label>
           </Col>
           <Col span={18}>
-            <InputNumber id='height' min={0} max={10000} defaultValue={height} onChange={onHeightChange}/>
-            {heightError ? <Alert message="Please input height!" type="error" banner/> : null}
+            <Input id='workPlace' defaultValue={workPlace} onChange={onChange}/>
+            {workPlaceError ? <Alert message="Пожалуйста введите место работы!" type="error" banner/> : null}
           </Col>
         </Row>
         <Row>
           <Col span={6} className='ant-form-item-label'>
-              <label className='ant-form-item-required' htmlFor='mass' title = 'mass'>
-                Mass (kg)
-              </label>
+            <label
+                className='ant-form-item-required'
+                htmlFor='address'
+                title='address'
+            >
+              Адрес работы
+            </label>
           </Col>
           <Col span={18}>
-            <InputNumber id='mass' min={0} max={10000} defaultValue={mass} onChange={onMassChange}/>
-            {massError ? <Alert message="Please input mass!" type="error" banner/> : null}
+            <Input id='address' defaultValue={address} onChange={onChange}/>
+            {addressError ? <Alert message="Пожалуйста введите фдрес работы!" type="error" banner/> : null}
           </Col>
         </Row>
       </Modal>
