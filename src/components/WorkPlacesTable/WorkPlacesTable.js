@@ -7,7 +7,7 @@ import SearchableTable from "../SearchableTable";
 class WorkPlacesTable extends React.Component {
 	render() {
 		const { fieldList, workPlaces, workPlacesCount } = this.props.workPlacesStore;
-		const { tableStore, onDelButtonClick, onAddButtonClick } = this.props;
+		const { tableStore, onDelButtonClick, onAddButtonClick, onEditButtonClick } = this.props;
 		const columns = fieldList.map(({field, title}) => {
 			return {
 				title: title,
@@ -19,8 +19,20 @@ class WorkPlacesTable extends React.Component {
 		return (
 			<div data-count={workPlacesCount}>
 				<div className="table-operations" style={{ marginTop: 16, marginBottom: 16 }}>
-					<Button style={{marginRight: 8}} onClick={onAddButtonClick}>
+					<Button
+						style={{marginRight: 8}}
+						onClick={onAddButtonClick}
+					>
 						Добавить
+					</Button>
+					<Button
+						style={{marginRight: 8}}
+						disabled={tableStore.selectedRowKeys.length !== 1}
+						onClick={tableStore.selectedRowKeys.length === 1
+							? onEditButtonClick.bind(this, tableStore.selectedRowKeys[0])
+							: undefined}
+					>
+						Изменить
 					</Button>
 					<Button disabled={!tableStore.isSelected} onClick={onDelButtonClick}>
 						Удалить

@@ -14,11 +14,17 @@ const WorkPlacesTableContainer = inject('workPlacesStore', 'workPlacesTableStore
 			workPlacesStore.rootstore.viewStore.key = '';
 			workPlacesStore.rootstore.viewStore.toggleVisibleEditForm('visibleEditWorkPlaceForm');
 		};
+		const onEditWorkPlaceButtonClick = async (key) => {
+			workPlacesStore.rootstore.viewStore.key = key;
+			await workPlacesStore.getWorkPlaceByKey(key);
+			workPlacesStore.rootstore.viewStore.toggleVisibleEditForm('visibleEditWorkPlaceForm');
+		};
 		return <WorkPlacesTable
 			workPlacesStore={workPlacesStore}
 			tableStore={workPlacesTableStore}
 			onDelButtonClick={onDelWorkPlaceButtonClick}
 			onAddButtonClick={onAddWorkPlaceButtonClick}
+			onEditButtonClick={onEditWorkPlaceButtonClick}
 		/>
 	}
 ));

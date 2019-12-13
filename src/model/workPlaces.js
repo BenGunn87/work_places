@@ -1,14 +1,57 @@
-const url = '/workPlaces';
+// const url = '/workPlaces';
 
-export function getWorkPlaces() {
-	return fetch(url)
+/**
+ * Функция для получения списка мест работы
+ *
+ * @returns {Promise<string>}
+ */
+export async function getWorkPlaces() {
+	return 'getWorkPlaces';
+	/*fetch(url)
 		.then(function (response) {
 			return response.json();
 		})
 		.then(function ({results}) {
 			return results;
 		})
-		.catch(alert);
+		.catch(alert);*/
+}
+
+/**
+ * Функция для получения места работы по id
+ *
+ * @param {Number} id - ид места работы
+ * @returns {Promise<string>}
+ */
+export async function getWorkPlaceById(id) {
+	return 'getWorkPlaceById';
+	/*fetch(url)
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function ({results}) {
+			return results;
+		})
+		.catch(alert);*/
+}
+
+/**
+ * Функция для записи данных о месте работы
+ *
+ * @param {Number} id - ид места работы
+ * @param newData новые данные
+ * @returns {Promise<string>}
+ */
+export async function putWorkPlace(id, newData) {
+	return 'putWorkPlace';
+	/*fetch(url)
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function ({results}) {
+			return results;
+		})
+		.catch(alert);*/
 }
 
 export function getWorkPlacesMock() {
@@ -33,33 +76,3 @@ export function getWorkPlacesMock() {
 	});
 	return Promise.resolve(tmpArr);
 }
-
-/*
-export function getWorkPlacesMock() {
-	const tmpArr = [];
-	tmpArr.push({
-		lastname: 'TestF',
-		firstname: 'TestI',
-		workphone: '888-888-88-88',
-		mobilephone: '888-666-66-66',
-		mail: 'ggg@mail.ru',
-		birthdate: '01.01.1950',
-	});
-	tmpArr.push({
-		lastname: 'TestF_2',
-		firstname: 'TestI_2',
-		workphone: '777-777-77-77',
-		mobilephone: '777-666-66-66',
-		mail: 'aaa@mail.ru',
-		birthdate: '01.01.1960',
-	});
-	tmpArr.push({
-		lastname: 'TestF_3',
-		firstname: 'TestI_3',
-		workphone: '666-666-66-66',
-		mobilephone: '666-666-66-66',
-		mail: 'bbb@mail.ru',
-		birthdate: '01.01.1970',
-	});
-	return Promise.resolve(tmpArr);
-}*/

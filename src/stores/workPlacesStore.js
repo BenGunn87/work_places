@@ -1,6 +1,6 @@
 import { observable, action, decorate, computed } from 'mobx'
 import  randomId  from 'random-id'
-import {getWorkPlacesMock} from '../model/workPlaces';
+import {getWorkPlaceById, getWorkPlaces, getWorkPlacesMock, putWorkPlace} from '../model/workPlaces';
 
 
 class WorkPlacesStore {
@@ -13,6 +13,7 @@ class WorkPlacesStore {
 			];
 		this.rootstore = rootStore;
 		this.workPlaces = [];
+		this.selectedWorkPlace = {};
 		this.loaded = false;
 		this.fetchData();
 	}
@@ -21,19 +22,21 @@ class WorkPlacesStore {
 		return this.workPlaces.length;
 	}
 
-	fetchData() {
+	fetchData = async () => {
 		this.loaded = false;
-		getWorkPlacesMock()
-			.then(workPlaces => {
-				this.putWorkPlaces(workPlaces.map( item => {
-						const obj = {};
-						this.fieldList.forEach(({field}) => obj[field] = item[field]);
-						return obj;
-					}
-				));
-				this.loaded = true;
-			});
-	}
+		try {
+			console.log(await getWorkPlaces());
+			const workPlaces = await getWorkPlacesMock();
+			this.putWorkPlaces(workPlaces.map(item => {
+					const obj = {};
+					this.fieldList.forEach(({field}) => obj[field] = item[field]);
+					return obj;
+				}
+			));
+		} finally {
+			this.loaded = true;
+		}
+	};
 
 	addKey = workPlace => {
 		return {key: randomId(), ...workPlace};
@@ -51,22 +54,30 @@ class WorkPlacesStore {
 		this.workPlaces = this.workPlaces.filter(item => !keys.includes(item.key));
 	};
 
-	addWorkPlace = workPlace => {
+	addWorkPlace = async (workPlace) => {
 		this.workPlaces.unshift(this.addKey(workPlace));
+
+		console.log(await putWorkPlace(1, workPlace));
+		// await this.fetchData();
 	};
 
-	editWorkPlace = (key, workPlace) => {
+	editWorkPlace = async (key, workPlace) => {
 		const ind = this.getWorkPlaceIndByKey(key);
-		this.people[ind] = workPlace;
-		this.people[ind].key = key;
+		this.workPlaces[ind] = workPlace;
+		this.workPlaces[ind].key = key;
+
+		console.log(await putWorkPlace(1, workPlace));
+
+		// await this.fetchData();
 	};
 
-	getWorkPlaceIndByKey = key => {
-		this.workPlaces.findIndex(item => item.key === key);
+	getWorkPlaceIndByKey = sKey => {
+		return this.workPlaces.findIndex(({key}) => key === sKey);
 	};
 
-	getWorkPlaceByKey = sKey => {
-		return this.workPlaces.find( ({key}) => (key === sKey));
+	getWorkPlaceByKey = async (sKey) => {
+		console.log(await getWorkPlaceById(1));
+		this.selectedWorkPlace = this.workPlaces.find( ({key}) => (key === sKey));
 	}
 }
 

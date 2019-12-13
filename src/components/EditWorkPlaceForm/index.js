@@ -24,7 +24,7 @@ const EditWorkPlaceFormContainer = inject('workPlacesStore', 'viewStore')(observ
     };
 
     const title = key ? 'Edit workPlace' : 'Add workPlace';
-    const workPlace = key ? workPlacesStore.getWorkPlaceByKey(key) : {};
+    const workPlace = key ? workPlacesStore.selectedWorkPlace : {};
 
     return <EditWorkPlaceForm
       title = {title}
