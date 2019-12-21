@@ -1,6 +1,6 @@
 import { observable, action, decorate, computed } from 'mobx'
 import  randomId  from 'random-id'
-import {getWorkPlaceById, getWorkPlaces, getWorkPlacesMock, putWorkPlace} from '../model/workPlaces';
+import {getWorkPlaceById, getWorkPlaces, postWorkPlace} from '../model/workPlaces';
 
 
 class WorkPlacesStore {
@@ -25,8 +25,7 @@ class WorkPlacesStore {
 	fetchData = async () => {
 		this.loaded = false;
 		try {
-			console.log(await getWorkPlaces());
-			const workPlaces = await getWorkPlacesMock();
+			const workPlaces = await getWorkPlaces();
 			this.putWorkPlaces(workPlaces.map(item => {
 					const obj = {};
 					this.fieldList.forEach(({field}) => obj[field] = item[field]);
@@ -55,10 +54,10 @@ class WorkPlacesStore {
 	};
 
 	addWorkPlace = async (workPlace) => {
-		this.workPlaces.unshift(this.addKey(workPlace));
+		// this.workPlaces.unshift(this.addKey(workPlace));
 
-		console.log(await putWorkPlace(1, workPlace));
-		// await this.fetchData();
+		await postWorkPlace(1, workPlace);
+		await this.fetchData();
 	};
 
 	editWorkPlace = async (key, workPlace) => {
@@ -66,7 +65,7 @@ class WorkPlacesStore {
 		this.workPlaces[ind] = workPlace;
 		this.workPlaces[ind].key = key;
 
-		console.log(await putWorkPlace(1, workPlace));
+		console.log(await postWorkPlace(1, workPlace));
 
 		// await this.fetchData();
 	};

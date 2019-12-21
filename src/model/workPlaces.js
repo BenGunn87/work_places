@@ -6,15 +6,19 @@
  * @returns {Promise<string>}
  */
 export async function getWorkPlaces() {
-	return 'getWorkPlaces';
-	/*fetch(url)
+	//return 'getWorkPlaces';
+	return fetch("http://localhost:8080/camel/api/workplace", {
+		method: "GET",
+		mode: 'cors',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json;charset=UTF-8'
+		}
+	})
 		.then(function (response) {
 			return response.json();
 		})
-		.then(function ({results}) {
-			return results;
-		})
-		.catch(alert);*/
+		.catch(alert);
 }
 
 /**
@@ -42,16 +46,22 @@ export async function getWorkPlaceById(id) {
  * @param newData новые данные
  * @returns {Promise<string>}
  */
-export async function putWorkPlace(id, newData) {
-	return 'putWorkPlace';
-	/*fetch(url)
-		.then(function (response) {
-			return response.json();
+export async function postWorkPlace(id, newData) {
+	fetch("http://localhost:8080/camel/api/workplace",
+		{
+			method: "POST",
+			mode: 'cors',
+			body: JSON.stringify(newData),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json;charset=UTF-8'
+			}
 		})
-		.then(function ({results}) {
+		.then(function (results) {
+			console.log(results);
 			return results;
 		})
-		.catch(alert);*/
+		.catch(alert);
 }
 
 export function getWorkPlacesMock() {

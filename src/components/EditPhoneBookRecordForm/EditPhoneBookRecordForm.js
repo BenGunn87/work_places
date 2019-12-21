@@ -56,7 +56,7 @@ class EditPhoneBookRecordForm extends React.Component {
 	};
 
 	render() {
-		const { visible, handleCancel, title } = this.props;
+		const { visible, handleCancel, title, handleSend, isButtonSendDisabled} = this.props;
 		const { lastName, firstName, workPhone, mobilePhone, mail, birthDate } = this.formStore;
 		const { lastNameError, firstNameError, workPhoneError, mobilePhoneError, mailError, birthDateError } = this.formStore;
 		const { onChange } = this.formStore;
@@ -70,8 +70,11 @@ class EditPhoneBookRecordForm extends React.Component {
 					<Button key="back" onClick={handleCancel}>
 						Отмена
 					</Button>,
+					<Button key="submit" type="primary" onClick={handleSend} disabled={isButtonSendDisabled}>
+						Отправить
+					</Button>,
 					<Button key="submit" type="primary" onClick={this.handleOk}>
-						Сохранить
+						Добавить
 					</Button>,
 				]}
 			>

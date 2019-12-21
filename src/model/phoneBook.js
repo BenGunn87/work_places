@@ -1,11 +1,68 @@
-const url = '/phoneBook';
 
-export function getPhoneBook() {
-	return fetch(url)
+export async function getPhoneBook() {
+	return fetch('http://localhost:8080/camel/api/person', {
+		method: 'GET',
+		mode: 'cors',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json;charset=UTF-8'
+		}
+	})
 		.then(function (response) {
 			return response.json();
 		})
-		.then(function ({results}) {
+		.catch(alert);
+}
+
+export async function postPhoneBook(id, newData) {
+	return fetch("http://localhost:8080/camel/api/person/to-file",
+		{
+			method: "POST",
+			mode: 'cors',
+			body: JSON.stringify(newData),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json;charset=UTF-8'
+			}
+		})
+		.then(function (results) {
+			console.log(results);
+			return results;
+		})
+		.catch(alert);
+}
+
+export async function sendPhoneBookRecord(fileName) {
+	fetch("http://localhost:8080/camel/api/person/to-work",
+		{
+			method: "POST",
+			mode: 'cors',
+			body: JSON.stringify(fileName),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json;charset=UTF-8'
+			}
+		})
+		.then(function (results) {
+			console.log(results);
+			return results;
+		})
+		.catch(alert);
+}
+
+export async function clearPhoneBookRecordFile(fileName) {
+	fetch("http://localhost:8080/camel/api/person/clear-file",
+		{
+			method: "POST",
+			mode: 'cors',
+			body: JSON.stringify(fileName),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json;charset=UTF-8'
+			}
+		})
+		.then(function (results) {
+			console.log(results);
 			return results;
 		})
 		.catch(alert);

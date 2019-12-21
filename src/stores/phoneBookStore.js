@@ -1,7 +1,6 @@
 import { observable, action, decorate, computed } from 'mobx'
 import  randomId  from 'random-id'
-import {getPhoneBookMock} from '../model/phoneBook';
-
+import {clearPhoneBookRecordFile, getPhoneBook, postPhoneBook, sendPhoneBookRecord} from '../model/phoneBook';
 
 class PhoneBookStore {
 	constructor(rootStore) {
@@ -15,6 +14,7 @@ class PhoneBookStore {
 		];
 		this.rootstore = rootStore;
 		this.phoneBookRecords = [];
+		this.fileName = '';
 		this.loaded = false;
 		this.fetchData();
 	}
@@ -23,19 +23,20 @@ class PhoneBookStore {
 		return this.phoneBookRecords.length;
 	}
 
-	fetchData() {
+	fetchData = async () => {
 		this.loaded = false;
-		getPhoneBookMock()
-			.then(phoneBookRecords => {
-				this.putPhoneBook(phoneBookRecords.map( item => {
-						const obj = {};
-						this.fieldList.forEach(({field}) => obj[field] = item[field]);
-						return obj;
-					}
-				));
-				this.loaded = true;
-			});
-	}
+		try {
+			const phoneBookRecords = await getPhoneBook();
+			this.putPhoneBook(phoneBookRecords.map(item => {
+					const obj = {};
+					this.fieldList.forEach(({field}) => obj[field] = item[field]);
+					return obj;
+				}
+			));
+		} finally {
+			this.loaded = true;
+		}
+	};
 
 	addKey = phoneBookRecords => {
 		return {key: randomId(), ...phoneBookRecords};
@@ -53,8 +54,22 @@ class PhoneBookStore {
 		this.phoneBookRecords = this.phoneBookRecords.filter(item => !keys.includes(item.key));
 	};
 
-	addPhoneBookRecord = phoneBookRecord => {
-		this.phoneBookRecords.unshift(this.addKey(phoneBookRecord));
+	addPhoneBookRecord = async (phoneBookRecord) => {
+		this.fileName = await postPhoneBook(1, phoneBookRecord);
+	};
+
+	sendPhoneBookRecord = async () => {
+		await sendPhoneBookRecord(this.fileName);
+		this.setFileName('');
+	};
+
+	clearPhoneBookRecordFile = async () => {
+		await clearPhoneBookRecordFile(this.fileName);
+		this.setFileName('');
+	};
+
+	setFileName = (fileName) => {
+		this.fileName = fileName;
 	};
 
 	editPhoneBookRecord = (key, phoneBookRecord) => {
@@ -75,11 +90,13 @@ class PhoneBookStore {
 decorate(PhoneBookStore, {
 	phoneBookRecords: observable,
 	loaded: observable,
+	fileName: observable,
 	phoneBookRecordsCount: computed,
 	putPhoneBook: action,
 	delPhoneBookRecords: action,
 	addPhoneBookRecord: action,
-	editPhoneBookRecord: action
+	editPhoneBookRecord: action,
+	setFileName: action,
 });
 
 export default PhoneBookStore;
