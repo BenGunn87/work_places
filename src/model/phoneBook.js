@@ -26,8 +26,8 @@ export async function postPhoneBook(id, newData) {
 			}
 		})
 		.then(function (results) {
-			console.log(results);
-			return results;
+			//console.log(results.json());
+			return results.json();
 		})
 		.catch(alert);
 }
@@ -44,8 +44,8 @@ export async function sendPhoneBookRecord(fileName) {
 			}
 		})
 		.then(function (results) {
-			console.log(results);
-			return results;
+			//console.log(results);
+			return results.json();
 		})
 		.catch(alert);
 }

@@ -55,7 +55,8 @@ class PhoneBookStore {
 	};
 
 	addPhoneBookRecord = async (phoneBookRecord) => {
-		this.fileName = await postPhoneBook(1, phoneBookRecord);
+		let postResult = await postPhoneBook(1, phoneBookRecord);
+		this.fileName = postResult.fileName;
 	};
 
 	sendPhoneBookRecord = async () => {

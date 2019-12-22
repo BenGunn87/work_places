@@ -70,7 +70,7 @@ class EditPhoneBookRecordForm extends React.Component {
 					<Button key="back" onClick={handleCancel}>
 						Отмена
 					</Button>,
-					<Button key="submit" type="primary" onClick={handleSend} disabled={isButtonSendDisabled}>
+					<Button key="send" type="primary" onClick={handleSend} disabled={isButtonSendDisabled}>
 						Отправить
 					</Button>,
 					<Button key="submit" type="primary" onClick={this.handleOk}>
