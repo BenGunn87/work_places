@@ -48,6 +48,7 @@ export async function sendPhoneBookRecord(fileName) {
 			return results.json();
 		})
 		.catch(alert);
+
 }
 
 export async function clearPhoneBookRecordFile(fileName) {
